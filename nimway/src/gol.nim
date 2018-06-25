@@ -15,7 +15,7 @@ gdobj GoL of Node2D:
   var stepTimer: Timer
   var resetButton: Button
 
-  var cell = load("res://scenes/cell.tscn") as PackedScene
+  var cell = load("res://scenes/Cell.tscn") as PackedScene
 
   proc initGrid*() =
     for y in 0..<height:
