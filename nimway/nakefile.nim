@@ -6,19 +6,19 @@ import godotapigen
 
 proc genGodotApi() =
   let godotBin = getEnv("GODOT_BIN")
-  if godotBin.isNil or godotBin.len == 0:
+  if godotBin.len == 0:
     echo "GODOT_BIN environment variable is not set"
     quit(-1)
   if not fileExists(godotBin):
     echo "Invalid GODOT_BIN path: " & godotBin
     quit(-1)
 
-  const targetDir = "_godotapi"
+  const targetDir = "src"/"godotapi"
   createDir(targetDir)
   const jsonFile = targetDir/"api.json"
   if not fileExists(jsonFile) or
      godotBin.getLastModificationTime() > jsonFile.getLastModificationTime():
-    direShell(godotBin, "--gdnative-generate-json-api", jsonFile)
+    direShell(godotBin, "--gdnative-generate-json-api", getCurrentDir()/jsonFile)
     if not fileExists(jsonFile):
       echo "Failed to generate api.json"
       quit(-1)
@@ -47,6 +47,7 @@ task "build", "Builds the client for the current platform":
 task "clean", "Remove files produced by build":
   removeDir(".nimcache")
   removeDir("src"/".nimcache")
-  removeDir("_godotapi")
+  removeDir("src"/"godotapi")
   removeDir("_dlls")
   removeFile("nakefile")
+  removeFile("nakefile.exe")

@@ -1,12 +1,13 @@
-import godot, node_2d, position_2d, timer,
-       packed_scene, cell, control, scene_tree, resource_loader, random,
-       button
+import random
+import godot
+import godotapi/[node_2d, position_2d, timer, packed_scene, control, scene_tree, resource_loader, button]
+import cell
 
 gdobj GoL of Node2D:
   #game board settings
   var width* = 10
   var height* = 10
-  var grid: seq[Cell] = newSeq[Cell](width * height)
+  var grid: seq[Cell] = newSeq[Cell](self.width * self.height)
   var cellSize* = 32
   var spawnRate* = 50
   var spacer = 5
@@ -15,54 +16,53 @@ gdobj GoL of Node2D:
   var stepTimer: Timer
   var resetButton: Button
 
-  var cell = load("res://scenes/Cell.tscn") as PackedScene
+  var pk_cell = load("res://scenes/Cell.tscn") as PackedScene
 
   proc initGrid*() =
-    for y in 0..<height:
-      for x in 0..<width:
-        var newCell = cell.instance() as Cell
+    for y in 0..<self.height:
+      for x in 0..<self.width:
+        var newCell = self.pk_cell.instance() as Cell
         newCell.initTile(x, y)
-        newCell.rectPosition = vec2(startPosition.position.x + float(x * (cellSize+spacer)), startPosition.position.y + float(y*(cellSize+spacer)))
-        getTree().root.getNode("GameOfLife").addChild(newCell)
-        grid[y * width + x] = newCell
+        newCell.rectPosition = vec2(self.startPosition.position.x + float(x * (self.cellSize+self.spacer)), self.startPosition.position.y + float(y*(self.cellSize+self.spacer)))
+        self.getTree().root.getNode("GameOfLife").addChild(newCell)
+        self.grid[y * self.width + x] = newCell
 
   proc randomizeGrid*() =
-    for y in 0..<height:
-      for x in 0..<width:
-        var cell = grid[y * width + x]
-        if rand(100) <= spawnRate:
+    for y in 0..<self.height:
+      for x in 0..<self.width:
+        let cell = self.grid[y * self.width + x]
+        if rand(100) <= self.spawnRate:
           cell.setKind(CellKind.Living)
         else:
           cell.setKind(CellKind.Dead)
 
   #helper function to get neighbors status
   proc getLivingNeighbors*(cell: Cell): int =
-    var livingNeighbors = 0
-    for i in -1..<2:
-      for j in -1..<2:
-        var x = cell.x + i
-        var y = cell.y + j
+    for i in -1..1:
+      for j in -1..1:
         if i == 0 and j == 0:
-          discard
-        elif x >= 0 and x <= width-1 and y >= 0 and y <= height-1:
-          if grid[y * width + x].getKind == CellKind.Living:
-            livingNeighbors += 1
-    result = livingNeighbors
+          continue
 
+        let x = cell.x + i
+        let y = cell.y + j
+        if x >= 0 and x < self.width and y >= 0 and y < self.height:
+          if self.grid[y * self.width + x].getKind == CellKind.Living:
+            result += 1
 
   #main moving cog of the game, iterate over the board and apply conway's rules
   proc step*() =
     var kinds = newSeq[CellKind](0)
-    for y in 0..<height:
-      for x in 0..<width:
-        var cell = grid[y * width + x]
-        var livingNeighbors = getLivingNeighbors(cell)
+    for y in 0..<self.height:
+      for x in 0..<self.width:
+        let cell = self.grid[y * self.width + x]
+        let livingNeighbors = self.getLivingNeighbors(cell)
+
         #living
         if cell.getKind() == CellKind.Living:
           if livingNeighbors < 2 or livingNeighbors > 3:
-            kinds.add(CellKind.Living)
-          elif livingNeighbors == 2 or livingNeighbors == 3:
             kinds.add(CellKind.Dead)
+          else:
+            kinds.add(CellKind.Living)
         #dead
         elif livingNeighbors == 3:
             kinds.add(CellKind.Living)
@@ -70,26 +70,26 @@ gdobj GoL of Node2D:
             kinds.add(CellKind.Dead)
 
     #set the kinds
-    var index = 0
-    for y in 0..<height:
-      for x in 0..<width:
-        grid[y * width + x].setKind(kinds[index])
-        index += 1
+    for y in 0..<self.height:
+      for x in 0..<self.width:
+        let idx = y * self.width + x
+        self.grid[idx].setKind(kinds[idx])
+
 
   proc onStepTimerTimeout*() {.gdExport.} =
-    step()
+    self.step()
 
   proc onResetButtonPressed*() {.gdExport.} =
-    randomizeGrid()
+    self.randomizeGrid()
 
   method ready*() =
     randomize()
-    startPosition = getNode("StartPosition").as(Position2D)
-    stepTimer = getNode("StepTimer").as(Timer)
-    resetButton = getNode("ResetButton").as(Button)
-    discard resetButton.connect("pressed", self, "on_reset_button_pressed", newArray())
-    discard stepTimer.connect("timeout", self, "on_step_timer_timeout", newArray())
-    initGrid()
-    randomizeGrid()
+    self.startPosition = self.getNode("StartPosition").as(Position2D)
+    self.stepTimer = self.getNode("StepTimer").as(Timer)
+    self.resetButton = self.getNode("ResetButton").as(Button)
+    discard self.resetButton.connect("pressed", self, "on_reset_button_pressed", newArray())
+    discard self.stepTimer.connect("timeout", self, "on_step_timer_timeout", newArray())
+    self.initGrid()
+    self.randomizeGrid()
 
 

@@ -1,5 +1,5 @@
 import godot
-import animation_player, control
+import godotapi / [animation_player, control]
 
 type
   CellKind* {.pure.} = enum
@@ -12,7 +12,7 @@ gdobj Cell of Control:
   var anim: AnimationPlayer
 
   method ready*() =
-    anim = getNode("AnimationPlayer").as(AnimationPlayer)
+    self.anim = self.getNode("AnimationPlayer").as(AnimationPlayer)
 
   proc initTile*(x,y: int) =
     self.x = x
@@ -22,10 +22,10 @@ gdobj Cell of Control:
     self.kind = kind
     case kind:
     of CellKind.Living:
-      anim.play("Living")
+      self.anim.play("Living")
     of CellKind.Dead:
-      anim.play("Dead")
+      self.anim.play("Dead")
 
   proc getKind*(): CellKind =
-    kind
+    self.kind
 
