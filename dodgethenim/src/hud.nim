@@ -2,7 +2,7 @@ import godot
 import godotapi/[canvas_layer, timer, label, asyncdispatch]
 
 gdobj Hud of CanvasLayer:
-  var self.messageTimer: Timer
+  var messageTimer: Timer
   var messageLabel: Label
   var startButton: Button
   var scoreLabel: Label
