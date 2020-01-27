@@ -1,5 +1,6 @@
 import godot
-import godotapi/[canvas_layer, timer, label, asyncdispatch]
+import godotapi/[canvas_layer, timer, label]
+import asyncdispatch
 
 gdobj Hud of CanvasLayer:
   var messageTimer: Timer
@@ -17,7 +18,7 @@ gdobj Hud of CanvasLayer:
 
   proc showGameOver*() =
     self.showMessage("Game Over")
-    discard self.sleepAsync(self.messageTimer.waitTime.int * 1000)
+    discard sleepAsync(self.messageTimer.waitTime.int * 1000)
     self.messageLabel.text = "Game Over!"
     self.messageLabel.show()
     self.startButton.show()

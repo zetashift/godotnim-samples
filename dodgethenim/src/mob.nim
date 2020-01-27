@@ -15,6 +15,6 @@ gdobj Mob of RigidBody2d:
   method ready*() =
     self.visibility = self.getNode("Visibility").as(VisibilityNotifier2D)
     self.animatedSprite = self.getNode("AnimatedSprite").as(AnimatedSprite)
-    self.animatedSprite.animation = rand(self.mobKinds)
+    self.animatedSprite.animation = sample(self.mobKinds)
     discard self.visibility.connect("screen_exited", self, "on_visibility_screen_exited", newArray())
 
