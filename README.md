@@ -3,7 +3,7 @@
 For now only Dodge the Nim works fully on 1.0. This however should show you how a lot of things are done in godot-nim.
 
 NOTE: If you get a NilAccessError on the method `onMobTimerTimeout` please load the Mob scene in the editor on the Main Node. 
-So select the Main node and in your Inspector you should see 'mob' as one of the script variables, load the Mob scene located in the `scenes` folder.
+So select the Main node and in your Inspector you should see 'mob' as one of the script variables, load the Mob scene located in the `scenes` folder. You might have to restart your editor to see this after compiling the Nim source. And it might be gone after another restart.
 
 Most likely this is a Godot/GDNative thing, and you could do this using only code and not using a script variable per se.
 
