@@ -22,8 +22,7 @@ gdobj main of Control:
 
 # note the default signal name here but with leading underscore removed (edited signal name in Godot editor too!) 
 # that is needed, otherwise it won't compile
-
-# gdExport pragma seems needed for signals to function properly
+# Also gdExport pragma seems needed for signals to function properly
  proc on_inbox_text_changed(intext:string) {.gdExport.} =
   #print intext.len
   if nonhex_chars in intext or intext.len == 0:
