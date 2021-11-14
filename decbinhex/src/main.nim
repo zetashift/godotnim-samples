@@ -20,6 +20,9 @@ gdobj main of Control:
   self.getNode("grid/hex_button").BaseButton.disabled = true
   self.getNode("grid/a/outlabel").Label.text = message
 
+# note the default signal name here but with leading underscore removed (edited signal name in Godot editor too!) 
+# that is needed, otherwise it won't compile
+
 # gdExport pragma seems needed for signals to function properly
  proc on_inbox_text_changed(intext:string) {.gdExport.} =
   #print intext.len
