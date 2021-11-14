@@ -1,6 +1,6 @@
 # decbinhex
 
-![preview]
+![preview](https://github.com/insomniacUNDERSCORElemon/godotnim-samples/blob/83cf79cf2f6df9554178fd365be569c627c0d6e9/decbinhex/.README/preview.png)
 
 I used all newest stable stuff to make this. Godot 3.4, Nim 1.6.0, Godot-Nim 0.8.5* (`requires "https://github.com/dsrw/godot-nim#f2af444"`, see https://github.com/pragmagic/godot-nim/pull/114 ). Otherwise, just the same build process.
 
