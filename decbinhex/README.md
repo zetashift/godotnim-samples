@@ -1,6 +1,6 @@
 # decbinhex
 
-![preview](https://github.com/insomniacUNDERSCORElemon/godotnim-samples/blob/83cf79cf2f6df9554178fd365be569c627c0d6e9/decbinhex/.README/preview.png)
+![preview](./.README/preview.png)
 
 Just a basic 2d application to convert decimal/binary/hexadecimal numbers.
 
