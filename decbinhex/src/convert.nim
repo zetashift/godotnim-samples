@@ -6,7 +6,7 @@ proc convert_from_decimal*(input_decimal:string):string =
  var result_hex:string = "reset hex result"
  if input_decimal.len < 20: result_binary = strip((parseInt(input_decimal)).toBin(63), trailing = false, chars = {'0'})
  else: result_binary = "Output binary too large!"
- result_hex = strip(toHex(input_decimal), trailing = false, chars = {'0'})
+ result_hex = strip(toHex(input_decimal.parseInt), trailing = false, chars = {'0'})
  return("Binary is: " & result_binary & "\nHexadecimal is: " & result_hex)
 
 proc convert_from_binary*(input_binary:string):string =
