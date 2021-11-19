@@ -14,8 +14,9 @@ proc convert_from_binary*(input_binary: string): string =
   var result_decimal: int = 0
   var result_hex: string = "reset hex result"
   for i, c in input_binary:
-    if c == '1': result_decimal += 2^abs(i-(
-        input_binary.len-1)) #use length to invert i... to get place without a decreasing variable
+    if c == '1':
+      #use length to invert i... to get place without a decreasing variable
+      result_decimal += 2^abs(i-(input_binary.len-1)) 
   result_hex = strip(toHex(result_decimal), trailing = false, chars = {'0'})
   return("Decimal is: " & $result_decimal & "\nHexadecimal is: " & result_hex)
 
