@@ -46,8 +46,7 @@ gdobj main of Control:
     if hex_letters in intext:
       self.getNode("grid/decimal_button").BaseButton.disabled = true
       self.getNode("grid/binary_button").BaseButton.disabled = true
-      self.getNode("grid/a/outlabel").Label.text = (
-       "Live hexadecimal conversion is:\n" & $intext.parseHexInt & " in decimal")
+      self.getNode("grid/a/outlabel").Label.text = ("Live hexadecimal conversion is:\n" & $intext.parseHexInt & " in decimal")
       return
     if intext.len < 20 and parseInt(intext) == 0:
       self.disable_all_buttons("Waiting for valid input.")
@@ -59,23 +58,19 @@ gdobj main of Control:
       self.getNode("grid/binary_button").BaseButton.disabled = false
       self.getNode("grid/decimal_button").BaseButton.disabled = false
       if (self.getNode("grid/binary_check").BaseButton).is_pressed:
-        if intext.len < 20: self.getNode("grid/a/outlabel").Label.text = (
-         "Live binary conversion is:\n" & $intext.parseBinInt & " in decimal")
+        if intext.len < 20: 
+          self.getNode("grid/a/outlabel").Label.text = ("Live binary conversion is:\n" & $intext.parseBinInt & " in decimal")
         else: self.getNode("grid/a/outlabel").Label.text = ("Input decimal too large to parse for live convert, please use button")
 
   proc submit_decimal() {.gdExport.} =
     #called proc is imported from convert.nim
-    self.getNode("grid/a/outlabel").Label.text = convert_from_decimal(
-      self.getNode("grid/inbox").LineEdit.text)
+    self.getNode("grid/a/outlabel").Label.text = convert_from_decimal(self.getNode("grid/inbox").LineEdit.text)
 
   proc submit_binary() {.gdExport.} =
-    self.getNode("grid/a/outlabel").Label.text = convert_from_binary(
-      self.getNode(
-      "grid/inbox").LineEdit.text)
+    self.getNode("grid/a/outlabel").Label.text = convert_from_binary(self.getNode("grid/inbox").LineEdit.text)
 
   proc submit_hex() {.gdExport.} =
     self.getNode("grid/a/outlabel").Label.text = convert_from_hexadecimal(
       self.getNode("grid/inbox").LineEdit.text)
-    #self.getNode("grid/inbox").queue_free()
 
   method process*(delta: float64) = discard
